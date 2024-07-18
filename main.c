@@ -13,11 +13,11 @@
 
 
 // Function prototypes.
-int stepPlayer(char[BOARD_SIZE][BOARD_SIZE], int, int, int, int, int, int);
+int stepPlayer(char [BOARD_SIZE][BOARD_SIZE], int, int, int, int, int, int);
 
-int stepComputer(char[BOARD_SIZE][BOARD_SIZE], int, int, int, int, int, int);
+int stepComputer(char [BOARD_SIZE][BOARD_SIZE], int, int, int, int, int, int);
 
-int move(char[BOARD_SIZE][BOARD_SIZE], int, int, int, int, int, int, char );
+int move(char [BOARD_SIZE][BOARD_SIZE], int, int, int, int, int, int, char);
 
 int checkTrapIndex(int, int);
 
@@ -25,7 +25,7 @@ void generateTrapIndex(int *, int *);
 
 void generateTrapValues(int *, int *);
 
-void displayBoard(char[BOARD_SIZE][BOARD_SIZE], int, int);
+void displayBoard(char [BOARD_SIZE][BOARD_SIZE], int, int);
 
 int rollDice(void);
 
@@ -33,11 +33,12 @@ int checkIsOnTrap(int, int, int, int, int);
 
 
 int main() {
+    int pointP = 0, pointC = 0;
     int row = BOARD_SIZE, col = BOARD_SIZE; // Dimensions of the game board.
     int dice1, dice2;
-    int quit = 0;   // Default value is 0, if user don't want to play again it is 1.
+    int quit = 0; // Default value is 0, if user don't want to play again it is 1.
     int *c_trap_row, *c_trap_col; // Row and col values for computer trap index.
-    int p_trap[2], c_trap[2], p_trap_val, c_trap_val;  /* player trap index (row col),
+    int p_trap[2], c_trap[2], p_trap_val, c_trap_val; /* player trap index (row col),
                                                   * computer trap index (row col),
                                                   * player's trap val.
                                                   * computer's trap val.
@@ -53,14 +54,16 @@ int main() {
     printf("\nWelcome to the Circle Game! :)");
     printf("\nLet's get started!\n");
 
-    while (quit == 0) {     // Continue to play until user don't want to play anymore.
+    while (quit == 0) {
+        // Continue to play until user don't want to play anymore.
         srand(time(NULL)); // Set randomness seed of the dice according to the time.
 
-        int start = 2;  // Player starts if 0, computer starts if 1, default = 2;
-        int is_over = 0;    // Default value is 0, when one of the players won it is 1.
-        int p_win = 0, c_win = 0;   // Variable to determine if player and user completed a circle.
+        int start = 2; // Player starts if 0, computer starts if 1, default = 2;
+        int is_over = 0; // Default value is 0, when one of the players won it is 1.
+        int p_win = 0, c_win = 0; // Variable to determine if player and user completed a circle.
 
-        for (int i = 0; i < row; i++) { // Reset game boards.
+        for (int i = 0; i < row; i++) {
+            // Reset game boards.
             for (int j = 0; j < col; j++) {
                 p_board[i][j] = ' ';
                 c_board[i][j] = ' ';
@@ -77,7 +80,8 @@ int main() {
 
         printf("\n----Player----");
         int a = 0; // It will be 1 when user enters a valid trap index.
-        while (a == 0) { // Get the trap index from the user until user enters valid input.
+        while (a == 0) {
+            // Get the trap index from the user until user enters valid input.
             printf("\nEnter trap index (row col):");
             scanf("%d %d", &p_trap[0], &p_trap[1]);
             fflush(stdin);
@@ -90,7 +94,8 @@ int main() {
         printf("\nGenerated trap index (row col): %d %d", c_trap[0], c_trap[1]);
         printf("\nGenerated trap value: %d", c_trap_val);
 
-        while (start == 2) { // Roll the dice until someone rolls bigger.
+        while (start == 2) {
+            // Roll the dice until someone rolls bigger.
             dice1 = rollDice();
             dice2 = rollDice();
             printf("\n\nI have rolled the dice and got %d!", dice2);
@@ -114,7 +119,8 @@ int main() {
         int round = 1;
         switch (start) {
             case 0: // Player starts.
-                while (is_over == 0) { // Play until someone completes the circle.
+                while (is_over == 0) {
+                    // Play until someone completes the circle.
                     printf("\n----Round %d----", round);
 
                     dice1 = rollDice(); // Roll the dice for Player.
@@ -122,8 +128,8 @@ int main() {
 
                     // Player's turn.
                     p_win = stepPlayer(p_board, row, col,
-                                      dice1, p_trap[0],
-                                      p_trap[1], p_trap_val);
+                                       dice1, p_trap[0],
+                                       p_trap[1], p_trap_val);
                     if (p_win == 1) {
                         is_over = 1;
                     }
@@ -133,8 +139,8 @@ int main() {
 
                     // Computer's turn.
                     c_win = stepComputer(c_board, row, col,
-                                        dice2, c_trap[0],
-                                        c_trap[1], c_trap_val);
+                                         dice2, c_trap[0],
+                                         c_trap[1], c_trap_val);
                     if (c_win == 1) {
                         is_over = 1;
                     }
@@ -150,7 +156,8 @@ int main() {
                 }
                 break;
             case 1: // Computer starts:
-                while (is_over == 0) { // Play until someone completes the circle.
+                while (is_over == 0) {
+                    // Play until someone completes the circle.
                     printf("\n----Round %d----", round);
 
                     dice1 = rollDice(); // Roll the dice for Computer.
@@ -158,8 +165,8 @@ int main() {
 
                     // Computer's turn.
                     c_win = stepComputer(c_board, row, col,
-                                        dice1, c_trap[0],
-                                        c_trap[1], c_trap_val);
+                                         dice1, c_trap[0],
+                                         c_trap[1], c_trap_val);
                     if (c_win == 1) {
                         is_over = 1;
                     }
@@ -169,8 +176,8 @@ int main() {
 
                     // Player's turn.
                     p_win = stepPlayer(p_board, row, col,
-                                      dice2, p_trap[0],
-                                      p_trap[1], p_trap_val);
+                                       dice2, p_trap[0],
+                                       p_trap[1], p_trap_val);
                     if (p_win == 1) {
                         is_over = 1;
                     }
@@ -190,11 +197,18 @@ int main() {
         printf("\n----END----");
         if (p_win == 1 && c_win == 1) // Tie.
             printf("\nTie!!!");
-        else if (c_win == 1) // Computer won.
+        else if (c_win == 1) {
+            // Computer won.
             printf("\nI won!!!");
-        else if (p_win == 1) { // Player won.
+            pointC++;
+        } else if (p_win == 1) {
+            // Player won.
             printf("\nYou won!!!");
+            pointP++;
         }
+
+        //Print overall score.
+        printf("\n\n-----Score Board-----\nPlayer = %d\nComputer = %d",pointP, pointC);
 
         // Ask if player wants to play again.
         printf("\n\nWould you like to play again (Y/N)?");
@@ -220,10 +234,10 @@ int stepPlayer(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, int step, i
      * move clockwise along the sides until the number of remaining step is 0.
      */
 
-    int is_trap;      // Default value is 0, it will be 1 if movement ended on a trap.
-    int old_step;     // Save old step value to print it after calculated new step val.
+    int is_trap; // Default value is 0, it will be 1 if movement ended on a trap.
+    int old_step; // Save old step value to print it after calculated new step val.
     int is_empty = 0; // Default value is 0, it will be 1 when the first empty index around the board is determined.
-    int dir;          // Direction value for movement. (Right = 0, Down = 1, Left = 2, Up = 3)
+    int dir; // Direction value for movement. (Right = 0, Down = 1, Left = 2, Up = 3)
     int p_row, p_col; // Row and column data for the position on the board.
 
     // Scan the top side for the position.
@@ -258,7 +272,6 @@ int stepPlayer(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, int step, i
     }
 
 
-
     // Scan the left side for the position.
     for (int i = (row - 1); i >= 0; i--) {
         if (board[i][0] != PLAYER && is_empty == 0) {
@@ -269,7 +282,8 @@ int stepPlayer(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, int step, i
         }
     }
 
-    if (is_empty == 0) { // If is_empty = 0, that means player is on (1,0).
+    if (is_empty == 0) {
+        // If is_empty = 0, that means player is on (1,0).
         p_row = 1;
         p_col = 0;
         dir = 3;
@@ -350,7 +364,8 @@ int stepComputer(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, int step,
         }
     }
 
-    if (is_empty == 0) { // If is_empty = 0, that means computer is on (8,9).
+    if (is_empty == 0) {
+        // If is_empty = 0, that means computer is on (8,9).
         p_row = 8;
         p_col = 9;
         dir = 1;
@@ -376,20 +391,20 @@ int stepComputer(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, int step,
 
 
 // Move according to the direction value.
-int move(char board[BOARD_SIZE][BOARD_SIZE], int dir, int step, int row, int col, int p_row, int p_col, char player){
+int move(char board[BOARD_SIZE][BOARD_SIZE], int dir, int step, int row, int col, int p_row, int p_col, char player) {
     // Move clockwise along the sides until the number of remaining step is 0. If circle completed, return 1. Else 0.
 
     switch (dir) {
         case 0: // Move to the right. If necessary down.
             for (int i = 0; i < (col - 1); i++) {
-                if (step > 0 && p_col < (col - 1)) {
+                if (step > 0 && p_col < col - 1) {
                     step--;
                     p_col++;
                     board[0][p_col] = player;
                 }
             }
             for (int i = 0; i < (row - 1); i++) {
-                if (step > 0 && p_row < (row - 1)) {
+                if (step > 0 && p_row < row - 1) {
                     step--;
                     p_row++;
                     board[p_row][9] = player;
@@ -398,12 +413,19 @@ int move(char board[BOARD_SIZE][BOARD_SIZE], int dir, int step, int row, int col
             break;
         case 1: // Move to the down.
             for (int i = 0; i < (row - 1); i++) {
-                if (step > 0 && p_row < row) {
+                if (step > 0 && p_row < row - 1) {
                     step--;
                     p_row++;
                     board[p_row][9] = player;
                     if (p_row == 9 && player == 'C')
                         return 1;
+                }
+            }
+            for (int i = (col - 1); i > 0; i--) {
+                if (step > 0 && p_col > 0) {
+                    step--;
+                    p_col--;
+                    board[9][p_col] = player;
                 }
             }
             break;
@@ -429,12 +451,12 @@ int move(char board[BOARD_SIZE][BOARD_SIZE], int dir, int step, int row, int col
                     step--;
                     p_row--;
                     board[p_row][0] = player;
-                    if(p_row == 0 && player == 'P')
+                    if (p_row == 0 && player == 'P')
                         return 1;
                 }
             }
             for (int i = 0; i < (col - 1); i++) {
-                if (step > 0 && p_col < (col - 1)) {
+                if (step > 0 && p_col < col - 1) {
                     step--;
                     p_col++;
                     board[0][p_col] = player;
@@ -514,8 +536,9 @@ int rollDice(void) {
 int checkIsOnTrap(int step, int p_row, int p_col, int t_row, int t_col) {
     int is_trap = 0; // Default is 0, if trapped it is 1.
 
-    if (p_row == 0) { // Check move on top side.
-        while (step > 0 && p_col < 10 && is_trap == 0) {
+    if (p_row == 0) {
+        // Check move on top side.
+        while (step > 0 && p_col < 9 && is_trap == 0) {
             p_col++;
             step--;
             if (p_row == t_row && p_col == t_col) {
@@ -525,8 +548,9 @@ int checkIsOnTrap(int step, int p_row, int p_col, int t_row, int t_col) {
             }
         }
     }
-    if (p_col == 9 && is_trap == 0) { // Check move on right side.
-        while (step > 0 && p_row < 10 && is_trap == 0) {
+    if (p_col == 9 && is_trap == 0) {
+        // Check move on right side.
+        while (step > 0 && p_row < 9 && is_trap == 0) {
             p_row++;
             step--;
             if (p_row == t_row && p_col == t_col) {
@@ -536,7 +560,8 @@ int checkIsOnTrap(int step, int p_row, int p_col, int t_row, int t_col) {
             }
         }
     }
-    if (p_row == 9 && is_trap == 0) { // Check move on bottom side.
+    if (p_row == 9 && is_trap == 0) {
+        // Check move on bottom side.
         while (step > 0 && p_col > 0 && is_trap == 0) {
             p_col--;
             step--;
@@ -547,7 +572,8 @@ int checkIsOnTrap(int step, int p_row, int p_col, int t_row, int t_col) {
             }
         }
     }
-    if (p_col == 0 && is_trap == 0) { // Check move on left side.
+    if (p_col == 0 && is_trap == 0) {
+        // Check move on left side.
         while (step > 0 && p_row > 0 && is_trap == 0) {
             p_row--;
             step--;
@@ -558,8 +584,9 @@ int checkIsOnTrap(int step, int p_row, int p_col, int t_row, int t_col) {
             }
         }
     }
-    if (p_row == 0 && is_trap == 0) { // Check move on top side.
-        while (step > 0 && p_col < 10 && is_trap == 0) {
+    if (p_row == 0 && is_trap == 0) {
+        // Check move on top side.
+        while (step > 0 && p_col < 9 && is_trap == 0) {
             p_col++;
             step--;
             if (p_row == t_row && p_col == t_col) {
@@ -569,8 +596,9 @@ int checkIsOnTrap(int step, int p_row, int p_col, int t_row, int t_col) {
             }
         }
     }
-    if (p_col == 9 && is_trap == 0) { // Check move on right side.
-        while (step > 0 && p_row < 10 && is_trap == 0) {
+    if (p_col == 9 && is_trap == 0) {
+        // Check move on right side.
+        while (step > 0 && p_row < 9 && is_trap == 0) {
             p_row++;
             step--;
             if (p_row == t_row && p_col == t_col) {

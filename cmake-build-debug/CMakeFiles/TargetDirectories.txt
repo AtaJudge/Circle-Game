@@ -1,0 +1,3 @@
+D:/Metu Assignments/Circle-Game/cmake-build-debug/CMakeFiles/CircleGame.dir
+D:/Metu Assignments/Circle-Game/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Metu Assignments/Circle-Game/cmake-build-debug/CMakeFiles/rebuild_cache.dir
